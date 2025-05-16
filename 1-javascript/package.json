@@ -1,0 +1,25 @@
+{
+  "name": "1",
+  "version": "1.0.0",
+  "description": "remembering how to write code on express",
+  "keywords": [
+    "init"
+  ],
+  "license": "ISC",
+  "author": "ucapistran",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
+    "express": "^5.1.0",
+    "mongoose": "^8.14.3",
+    "nodemon": "^3.1.10",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
