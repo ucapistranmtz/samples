@@ -1,0 +1,29 @@
+{
+  "name": "3-pinetree",
+  "version": "1.0.0",
+  "description": "drawing a pinetree in javascript",
+  "keywords": [
+    "pinetree"
+  ],
+  "homepage": "https://github.com/ucapistranmtz/samples#readme",
+  "bugs": {
+    "url": "https://github.com/ucapistranmtz/samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucapistranmtz/samples.git"
+  },
+  "license": "ISC",
+  "author": "Ulises Capistran",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node pineTree.js",
+    "dev": "nodemon pineTree.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "nodemon": "^3.1.10"
+  }
+}
