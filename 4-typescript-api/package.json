@@ -20,7 +20,9 @@
   "type": "commonjs",
   "main": "server.js",
   "scripts": {
-    "start": "node src/server.js",
+    "build":"tsc",
+    "prestart":"npm run build",
+    "start": "node dist/server.js",
     "dev": "nodemon",
     "test": "jest"
   },

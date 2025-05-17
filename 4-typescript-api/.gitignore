@@ -1,3 +1,30 @@
 node_modules/
+dist/
+coverage/
+*.log
+*.tsbuildinfo
+*.tgz
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.tar.xz
+*.tgz
+
+# Ignore all .env files in the root directory
 .env*
-!.env.test
+# but not the  .env.local file in the root directory, 
+!.env.local
+# ignor all .env files in the src directory
+src/.env*
+
+# ignore all certificate files in any directory
+**/*.pem
+**/*.cert
+**/*.key
+**/*.certs
+#certs in root directory
+*.pem
+*.cert
+*.key
+*.certs

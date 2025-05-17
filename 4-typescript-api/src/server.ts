@@ -10,5 +10,6 @@ const server = express();
 connectDb();
 
 const apiPort = process.env.API_PORT || 3000;
+
 server.use(express.json());
 server.listen(apiPort, () => console.log(`server is running at port ${apiPort}`))

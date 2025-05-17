@@ -11,6 +11,6 @@
     "skipLibCheck": true,                      // Skip type checking node_modules
     "resolveJsonModule": true                  // Allow importing .json files
   },
-  "include": ["src"],                          // Compile only the src/ folder
+  "include": ["src","src/types/"],                          // Compile only the src/ folder
   "exclude": ["node_modules", "dist"]          // Ignore these folders
 }
