@@ -1,0 +1,40 @@
+{
+  "name": "4-typescript-api",
+  "version": "1.0.0",
+  "description": "Typescript api with popular middlewares for Authorization,Authentication etc. ",
+  "keywords": [
+    "typescript",
+    "cors",
+    "helmet"
+  ],
+  "homepage": "https://github.com/ucapistranmtz/samples#readme",
+  "bugs": {
+    "url": "https://github.com/ucapistranmtz/samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucapistranmtz/samples.git"
+  },
+  "license": "ISC",
+  "author": "Ulises Capistran",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@types/node": "^22.15.18",
+    "cors": "^2.8.5",
+    "helmet": "^8.1.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "zod": "^3.24.4"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0"
+  }
+}
