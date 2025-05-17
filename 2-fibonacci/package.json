@@ -1,0 +1,30 @@
+{
+  "name": "2-fibonacci",
+  "version": "1.0.0",
+  "description": "fibonacci approaches",
+  "keywords": [
+    "fibonacci",
+    "javascript",
+    "node"
+  ],
+  "homepage": "https://github.com/ucapistranmtz/samples#readme",
+  "bugs": {
+    "url": "https://github.com/ucapistranmtz/samples/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ucapistranmtz/samples.git"
+  },
+  "license": "ISC",
+  "author": "Ulises Capistran",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start":"node index.js",
+    "dev":"nodemon index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

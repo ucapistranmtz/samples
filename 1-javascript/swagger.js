@@ -24,10 +24,10 @@ const swaggerDocument = {
         },
         responses: {
           201: {
-            description: 'Usuario creado exitosamente'
+            description: 'User created'
           },
           400: {
-            description: 'Error de validación'
+            description: 'Validation error'
           },
           500:{
             description:'Server error'
