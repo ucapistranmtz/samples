@@ -58,7 +58,7 @@ MONGODB_CONNECTION=mongodb://root:example@host.docker.internal:27017/admin
 🔧 Build the image manually
 
 ```bash
-docker build -t my-typescript-api .
+docker build -t my-typescript-api:latest .
 docker run --env-file .env.local -p 3000:3000 my-typescript-api
 ```
 
