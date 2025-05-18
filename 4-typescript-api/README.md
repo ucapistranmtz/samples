@@ -59,7 +59,7 @@ MONGODB_CONNECTION=mongodb://root:example@host.docker.internal:27017/admin
 
 ```bash
 docker build -t my-typescript-api:latest .
-docker run --env-file .env.local -p 3000:3000 my-typescript-api
+docker run --name my-typescript-api --env-file .env.local -p 3000:3000 my-typescript-api:latest
 ```
 
 🔧 Use Docker Compose
