@@ -5,7 +5,7 @@ import LoggerService from '@utils/logger';
 import express from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import errorHandler from './middleware/errorHandler';
+import {errorHandler} from './middleware/error.middleware';
 import cors from 'cors';
 import connectDb from './config/db'
 
