@@ -1,5 +1,6 @@
 //load the environment variables
 import './config/loadEnv';
+import LoggerService from '@utils/logger';
 
 import express from 'express';
 import helmet from 'helmet';
@@ -7,6 +8,8 @@ import rateLimit from 'express-rate-limit';
 import errorHandler from './middleware/errorHandler';
 import cors from 'cors';
 import connectDb from './config/db'
+
+const logger = LoggerService.getLogger();
 
 // doing the server preparations
 const server = express();
@@ -55,4 +58,4 @@ connectDb();
 const apiPort = process.env.API_PORT || 3000;
 
 server.use(express.json());
-server.listen(apiPort, () => console.log(`server is running at port ${apiPort}`))
+server.listen(apiPort, () => logger.info(`server is running at port ${apiPort}`));
