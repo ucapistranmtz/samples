@@ -11,8 +11,8 @@ import connectDb from './config/db'
 
 const logger = LoggerService.getLogger();
 
-// doing the server preparations
-const server = express();
+// doing the app preparations
+const app = express();
 
 // helmet is a middleware that helps to secure Express apps by setting various HTTP headers
 // it helps to protect the app from well-known vulnerabilities by setting HTTP headers
@@ -21,15 +21,15 @@ const server = express();
 // it is a good practice to use helmet in production apps
 // it is not necessary to use helmet in development mode
 // but it is a good practice to use it in production mode
-server.use(helmet());
+app.use(helmet());
 
 // cors is a middleware that helps to enable Cross-Origin Resource Sharing (CORS)
-// it allows the server to specify which origins are allowed to access the resources
+// it allows the app to specify which origins are allowed to access the resources
 // it is a security feature that restricts web pages from making requests to a different domain than the one that served the web page
 // it is a good practice to use cors in production apps
 // it is not necessary to use cors in development mode
 // but it is a good practice to use it in production mode
-server.use(cors({
+app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -46,16 +46,17 @@ const limiter = rateLimit({
   message: 'Too many requests, please try again later.',
   headers: true
 });
-server.use(limiter);
+app.use(limiter);
 
 // error handler middleware
 // this middleware is used to handle errors that occur in the application
-server.use(errorHandler)
+app.use(errorHandler)
 
 //connecting to the database
 connectDb();
 
 const apiPort = process.env.API_PORT || 3000;
 
-server.use(express.json());
-server.listen(apiPort, () => logger.info(`server is running at port ${apiPort}`));
+app.use(express.json()); // ✅ parse JSON
+app.use(express.urlencoded({ extended: true })); // ✅ parse form data
+app.listen(apiPort, () => logger.info(`app is running at port ${apiPort}`));
