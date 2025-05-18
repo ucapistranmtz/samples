@@ -1,16 +1,32 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                        // Support modern JS features
-    "module": "CommonJS",                      // Required for Node.js
-    "moduleResolution": "node",                // Resolve imports like Node does
-    "outDir": "./dist",                        // Compiled JS output folder
-    "rootDir": "./src",                        // Your source code folder
-    "strict": true,                            // Enable all strict type checks
-    "esModuleInterop": true,                   // Allow default imports (e.g., express)
-    "forceConsistentCasingInFileNames": true,  // Prevent case mismatch bugs
-    "skipLibCheck": true,                      // Skip type checking node_modules
-    "resolveJsonModule": true                  // Allow importing .json files
+    "target": "ES2020", // Support modern JS features
+    "module": "CommonJS", // Required for Node.js
+    "moduleResolution": "node", // Resolve imports like Node does
+    "outDir": "./dist", // Compiled JS output folder
+    "rootDir": "./src", // Your source code folder
+    "strict": true, // Enable all strict type checks
+    "esModuleInterop": true, // Allow default imports (e.g., express)
+    "forceConsistentCasingInFileNames": true, // Prevent case mismatch bugs
+    "skipLibCheck": true, // Skip type checking node_modules
+    "resolveJsonModule": true, // Allow importing .json files
+    "baseUrl": "./src",
+    "paths": {
+      "@controllers/*": ["src/controllers/*"], // Aliases for controllers
+      "@models/*": ["src/models/*"], // Aliases for models
+      "@routes/*": ["src/routes/*"], // Aliases for routes
+      "@middlewares/*": ["src/middlewares/*"], // Aliases for middlewares
+      "@utils/*": ["src/utils/*"], // Aliases for utils
+      "@config/*": ["src/config/*"], // Aliases for config
+      "@types/*": ["src/types/*"], // Aliases for types
+      "@services/*": ["src/services/*"], // Aliases for services
+      "@helpers/*": ["src/helpers/*"], // Aliases for helpers
+      "@validations/*": ["src/validations/*"], // Aliases for validations
+      "@constants/*": ["src/constants/*"], // Aliases for constants
+      "@tests/*": ["src/tests/*"], // Aliases for tests
+      "@mocks/*": ["src/mocks/*"] // Aliases for mocks
+    }
   },
-  "include": ["src","src/types/"],                          // Compile only the src/ folder
-  "exclude": ["node_modules", "dist"]          // Ignore these folders
+  "include": ["src", "src/types/"], // Compile only the src/ folder
+  "exclude": ["node_modules", "dist"] // Ignore these folders
 }
