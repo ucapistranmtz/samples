@@ -15,6 +15,7 @@ coverage/
 .env*
 # but not the  .env.local file in the root directory, 
 !.env.local
+!.env.compose
 # ignor all .env files in the src directory
 src/.env*
 
