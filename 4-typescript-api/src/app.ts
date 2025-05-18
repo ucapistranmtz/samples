@@ -3,12 +3,14 @@ import './config/loadEnv';
 
 import express from 'express';
 import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';;
+import rateLimit from 'express-rate-limit';
+import errorHandler from './middleware/errorHandler';
 import cors from 'cors';
 import connectDb from './config/db'
 
 // doing the server preparations
 const server = express();
+
 // helmet is a middleware that helps to secure Express apps by setting various HTTP headers
 // it helps to protect the app from well-known vulnerabilities by setting HTTP headers
 // such as Content Security Policy, X-Content-Type-Options, X-Frame-Options, etc.
@@ -42,6 +44,10 @@ const limiter = rateLimit({
   headers: true
 });
 server.use(limiter);
+
+// error handler middleware
+// this middleware is used to handle errors that occur in the application
+server.use(errorHandler)
 
 //connecting to the database
 connectDb();
