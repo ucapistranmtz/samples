@@ -1,35 +1,35 @@
 # ----------- Stage 1: Build the application -----------
 # Base image
-FROM node:latest AS builder
+FROM node:24-alpine AS first-stage-builder
 
 # Set working directory
 WORKDIR /app
 
-# update/upgrade/clean image packages
-RUN apt-get update && apt-get upgrade -y && apt-get clean
+# update/upgrade/ image packages
+RUN apk update && apk upgrade --no-cache
   
 # copy package.json and package-lock.json
 COPY package.json package-lock.json ./
 
 # install only production dependencies and only the ones that exist in package.json
-RUN npm i --omit=dev
+RUN npm ci
 
 COPY  . .
 
 RUN npm run build
 # ----------- Stage 2: Run the application -----------
-FROM node:latest
+FROM node:24-alpine AS second-stage-runner
 # Set working directory
 WORKDIR /app
 
 # Copy package files and install production deps
 COPY package.json package-lock.json ./
-RUN npm ci --omit=dev
+RUN npm ci
 
-# Copy only the compiled output from builder
-COPY --from=builder /app/dist ./dist
+# Copy only the compiled output from first-stage-builder
+COPY --from=first-stage-builder /app/dist ./dist
 
 ENV NODE_ENV=production
 EXPOSE 3000
 
-CMD ["node","dist/server.js"]
+CMD ["node","dist/app.js"]

@@ -11,6 +11,7 @@
     "skipLibCheck": true, // Skip type checking node_modules
     "resolveJsonModule": true, // Allow importing .json files
     "baseUrl": "./src",
+    "typeRoots": ["node", "cors", "./node_modules/@types"],
     "paths": {
       "@controllers/*": ["src/controllers/*"], // Aliases for controllers
       "@models/*": ["src/models/*"], // Aliases for models
@@ -27,6 +28,6 @@
       "@mocks/*": ["src/mocks/*"] // Aliases for mocks
     }
   },
-  "include": ["src", "src/types/"], // Compile only the src/ folder
+  "include": ["src/**/*", "src", "src/types/"], // Compile only the src/ folder
   "exclude": ["node_modules", "dist"] // Ignore these folders
 }

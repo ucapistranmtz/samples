@@ -18,7 +18,7 @@
   "license": "ISC",
   "author": "Ulises Capistran",
   "type": "commonjs",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
