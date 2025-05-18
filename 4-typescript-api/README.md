@@ -32,7 +32,7 @@ A lightweight, production-ready RESTful API built with Node.js, TypeScript, and 
 | `zod`                | Request validation schema (with middleware) |
 
 ---
-
+# Middlewares flow
 ```mermaid
 graph TD
   A["Request"] --> B["trace.middleware.ts"]
