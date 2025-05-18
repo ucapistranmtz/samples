@@ -1,17 +1,20 @@
-# 4-typescript-api
+🚀 my-typescript-api
 
-A lightweight, production-ready RESTful API built with **Node.js**, **TypeScript**, and **Express**, containerized with Docker and configured to run with or without Docker Compose.
+A lightweight, production-ready RESTful API built with Node.js, TypeScript, and Express, designed with clean architecture and enhanced by built-in traceability for every request.
+
 
 ---
 
 ## 🚀 Features
 
-- ✅ Built with **TypeScript** and Express 5
-- ✅ Organized with clean architecture (routes, controllers, middlewares)
+- ✅ Built with **TypeScript** and **Express 5**
+- ✅ Organized with clean architecture (routes, controllers, middlewares, services, models)
 - ✅ Uses **MongoDB** with **Mongoose**
 - ✅ Docker + Docker Compose support
 - ✅ Environment-based `.env` file handling
-- ✅ Strong security and error handling
+- ✅ Strong security defaults with **Helmet**, **CORS**, and **Rate Limiting**
+- ✅ 🔍 **Automatic traceability**: generates a unique `traceId` for every request and attaches it to logs and responses
+- ✅ 📘 **Live Swagger documentation** using **TSOA** decorators – always in sync with your code
 
 ---
 
@@ -23,10 +26,40 @@ A lightweight, production-ready RESTful API built with **Node.js**, **TypeScript
 | `helmet`             | Sets secure HTTP headers                    |
 | `express-rate-limit` | Rate-limiting for API protection            |
 | `dotenv`             | Loads environment variables from `.env`     |
+| `traceMiddleware`    | will add an unic id to trace all requests   |
+| `errorHandler`       | will log all errors with the most detail possible  |
+| `addTraceIdToResponse`| will add the X-Trace-Id header for traceability  |
 | `zod`                | Request validation schema (with middleware) |
 
 ---
 
+```mermaid
+graph TD
+  A[Request] --> B(trace.middleware.ts)
+  B --> C(response-header.middleware.ts)
+  C --> D(helmet)
+  D --> E(cors)
+  E --> F(rateLimit)
+  F --> G(express.json())
+  G --> H(express.urlencoded())
+  H --> I(/swagger route)
+  I --> J(errorHandler)
+  J --> K[Response]
+```
+
+---
+
+### 🔍 Description
+
+- The `trace.middleware.ts` assigns a `traceId` to the request.
+- `response-header.middleware.ts` attaches it to the response headers.
+- Then you apply standard security and parsing middlewares (`helmet`, `cors`, `rateLimit`, `express.json()`, `express.urlencoded()`).
+- After that, Swagger UI and the raw Swagger JSON route are registered.
+- Finally, any uncaught errors flow into your global `errorHandler`.
+
+
+
+---
 ## 📦 Requirements
 
 - Docker installed
