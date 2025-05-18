@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true, // Enable experimental decorators
+    "emitDecoratorMetadata": true, // Emit metadata for decorators
     "target": "ES2020", // Support modern JS features
     "module": "CommonJS", // Required for Node.js
     "moduleResolution": "node", // Resolve imports like Node does
@@ -11,7 +13,10 @@
     "skipLibCheck": true, // Skip type checking node_modules
     "resolveJsonModule": true, // Allow importing .json files
     "baseUrl": "./src",
-    "typeRoots": ["node", "cors", "./node_modules/@types"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
     "paths": {
       "@controllers/*": ["controllers/*"], // Aliases for controllers
       "@models/*": ["models/*"], // Aliases for models
@@ -19,7 +24,6 @@
       "@middlewares/*": ["middlewares/*"], // Aliases for middlewares
       "@utils/*": ["utils/*"], // Aliases for utils
       "@config/*": ["config/*"], // Aliases for config
-      "@types/*": ["types/*"], // Aliases for types
       "@services/*": ["services/*"], // Aliases for services
       "@helpers/*": ["helpers/*"], // Aliases for helpers
       "@validations/*": ["validations/*"], // Aliases for validations

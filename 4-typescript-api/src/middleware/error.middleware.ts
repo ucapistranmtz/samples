@@ -1,8 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { RequestWithTraceId } from '../types/custom';
 import { getLogger } from '@utils/requestLogger'
 import getErrorDetails from '@utils/errorUtils'
 
-const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+const errorHandler = (err: any, req: RequestWithTraceId, res: Response, next: NextFunction) => {
   const logger = getLogger(req.traceId);
   const details = getErrorDetails(err);
 
