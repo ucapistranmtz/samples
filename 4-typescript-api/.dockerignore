@@ -1,0 +1,8 @@
+node_modules
+dist    # You don't want to copy the dist folder from your local machine because it will be generated in the container
+.env*   
+Dockerfile
+.dockerignore
+docker-compose.yml
+.vscode
+src/ # because we build it in docker not run it  
