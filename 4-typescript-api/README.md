@@ -50,3 +50,33 @@ This project supports multiple `.env` files depending on how you run it:
 API_PORT=3000
 MONGODB_CONNECTION=mongodb://root:example@host.docker.internal:27017/admin
 ```
+
+---
+
+🐳 Docker Setup
+
+🔧 Build the image manually
+
+```bash
+docker build -t my-typescript-api .
+docker run --env-file .env.local -p 3000:3000 my-typescript-api
+```
+
+🔧 Use Docker Compose
+
+```bash
+docker-compose --env-file .env.compose up --build
+```
+
+📂 Project Structure
+
+```bash
+src/
+├── app.ts               # Express app setup
+├── routes/              # Route definitions
+├── controllers/         # Request handlers
+├── middlewares/         # Custom middlewares
+├── config/              # MongoDB connection, env loader
+├── types/               # Custom types
+└── validations/         # Zod schemas
+```
