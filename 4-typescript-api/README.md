@@ -35,15 +35,15 @@ A lightweight, production-ready RESTful API built with Node.js, TypeScript, and 
 
 ```mermaid
 graph TD
-  A[Request] --> B(trace.middleware.ts)
-  B --> C(response-header.middleware.ts)
-  C --> D(helmet)
-  D --> E(cors)
-  E --> F(rateLimit)
-  F --> G(express.json())
-  G --> H(express.urlencoded())
-  H --> I(/swagger route)
-  I --> J(errorHandler)
+  A[Request] --> B[trace.middleware.ts]
+  B --> C[response-header.middleware.ts]
+  C --> D[helmet]
+  D --> E[cors]
+  E --> F[rateLimit]
+  F --> G["express.json"]
+  G --> H["express.urlencoded"]
+  H --> I[/swagger and /swagger.json]
+  I --> J[errorHandler]
   J --> K[Response]
 ```
 
