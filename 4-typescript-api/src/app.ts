@@ -48,7 +48,7 @@ app.use(helmet());
 // it is a good practice to use cors in production apps
 // it is not necessary to use cors in development mode
 // but it is a good practice to use it in production mode
-/*
+
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -56,7 +56,6 @@ app.use(cors({
   credentials: true,
   maxAge: 3600,
 }));
-*/
 
 // Rate limiting middleware 
 
