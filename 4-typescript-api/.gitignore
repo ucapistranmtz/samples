@@ -16,7 +16,7 @@ coverage/
 # but not the  .env.local file in the root directory, 
 !.env.local
 !.env.compose
-# ignor all .env files in the src directory
+# ignore all .env files in the src directory
 src/.env*
 
 # ignore all certificate files in any directory

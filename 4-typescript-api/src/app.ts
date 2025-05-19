@@ -3,7 +3,7 @@ import helmet from 'helmet';
 import path from 'path';
 import swaggerUII from 'swagger-ui-express';
 
-// midlewares
+// middlewares
 import { traceMiddleware } from './middleware/trace.middleware';
 import { addTraceIdToResponse } from './middleware/response-header.middleware';
 

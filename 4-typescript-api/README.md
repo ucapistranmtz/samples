@@ -2,7 +2,6 @@
 
 A lightweight, production-ready RESTful API built with Node.js, TypeScript, and Express, designed with clean architecture and enhanced by built-in traceability for every request.
 
-
 ---
 
 ## 🚀 Features
@@ -20,19 +19,21 @@ A lightweight, production-ready RESTful API built with Node.js, TypeScript, and 
 
 ## 🛠️ Middlewares Used
 
-| Middleware           | Purpose                                     |
-| -------------------- | ------------------------------------------- |
-| `cors`               | Enables Cross-Origin Resource Sharing       |
-| `helmet`             | Sets secure HTTP headers                    |
-| `express-rate-limit` | Rate-limiting for API protection            |
-| `dotenv`             | Loads environment variables from `.env`     |
-| `traceMiddleware`    | will add an unic id to trace all requests   |
-| `errorHandler`       | will log all errors with the most detail possible  |
-| `addTraceIdToResponse`| will add the X-Trace-Id header for traceability  |
-| `zod`                | Request validation schema (with middleware) |
+| Middleware             | Purpose                                           |
+| ---------------------- | ------------------------------------------------- |
+| `cors`                 | Enables Cross-Origin Resource Sharing             |
+| `helmet`               | Sets secure HTTP headers                          |
+| `express-rate-limit`   | Rate-limiting for API protection                  |
+| `dotenv`               | Loads environment variables from `.env`           |
+| `traceMiddleware`      | will add an unique id to trace all requests       |
+| `errorHandler`         | will log all errors with the most detail possible |
+| `addTraceIdToResponse` | will add the X-Trace-Id header for traceability   |
+| `zod`                  | Request validation schema (with middleware)       |
 
 ---
+
 # Middlewares flow
+
 ```mermaid
 graph TD
   A["Request"] --> B["trace.middleware.ts"]
@@ -58,9 +59,8 @@ graph TD
 - After that, Swagger UI and the raw Swagger JSON route are registered.
 - Finally, any uncaught errors flow into your global `errorHandler`.
 
-
-
 ---
+
 ## 📦 Requirements
 
 - Docker installed
