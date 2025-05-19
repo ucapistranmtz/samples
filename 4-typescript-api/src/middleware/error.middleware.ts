@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Response, NextFunction } from 'express';
 import { RequestWithTraceId } from '../types/custom';
 import { getLogger } from '@utils/requestLogger'
@@ -12,6 +13,7 @@ const errorHandler = (err: any, req: RequestWithTraceId, res: Response, next: Ne
   res.json({
     message: err.message || 'Internal Server Error'
   });
+  next();
 }
 
 

@@ -1,14 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Request, Response, NextFunction } from 'express';
+import LoggerService from '@utils/logger';
 
+const loger= LoggerService.getLogger();
 
-declare global {
-    namespace Express{
-        interface Request{
-            traceId?:string;
-        }
+declare module 'express-serve-static-core' {
+    interface Request {
+        traceId?: string;
     }
-};
+}
 
 
 export const traceMiddleware = (req: Request, res: Response, next: NextFunction) => {
@@ -20,6 +20,9 @@ export const traceMiddleware = (req: Request, res: Response, next: NextFunction)
     // It is a good practice to use a unique trace ID for each request
     // to help with debugging and troubleshooting
     req.traceId = uuidv4();
+    if(process.env.NODE_ENV !== 'production'){
+        loger.info(`new Trace ID: ${req.traceId} generated for the request`);
+    }
     // Moving to the next middleware
     // or route handler
     // This is important to ensure that the request is processed
