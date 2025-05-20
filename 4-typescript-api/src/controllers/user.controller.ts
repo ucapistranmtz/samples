@@ -14,7 +14,7 @@ import { getLogger } from '@utils/requestLogger';
 @Route('internal/users')
 @Tags('Users')
 export class UserController extends BaseController {
-  private service = new UserService();
+  private service = new UserService(this.getTraceId());
   // Logger instance
   // Use the trace ID from the request to log
   // This is a simple example. In a real-world application, you might want to use a more sophisticated logging solution.
