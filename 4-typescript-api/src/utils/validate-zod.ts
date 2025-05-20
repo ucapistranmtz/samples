@@ -17,7 +17,7 @@ export class ZodValidationError extends Error {
 export function validateZod<T>(
   schema: ZodSchema<T>,
   data: unknown,
-  traceId: string = 'unknown'
+  traceId: string = 'unknown',
 ): T {
   const logger = getLogger(traceId);
   const result = schema.safeParse(data);

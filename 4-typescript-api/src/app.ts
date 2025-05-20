@@ -8,12 +8,10 @@ import fs from 'fs';
 import { traceMiddleware } from './middleware/trace.middleware';
 import { addTraceIdToResponse } from './middleware/response-header.middleware';
 
-
 //load the environment variables
 import './config/loadEnv';
 import LoggerService from '@utils/logger';
 import { startServer } from '@utils/start-server';
-
 
 import rateLimit from 'express-rate-limit';
 import { errorHandler } from './middleware/error.middleware';
@@ -34,8 +32,6 @@ app.use(traceMiddleware);
 //  Attach traceId to all responses
 app.use(addTraceIdToResponse);
 
-
-
 // helmet is a middleware that helps to secure Express apps by setting various HTTP headers
 // it helps to protect the app from well-known vulnerabilities by setting HTTP headers
 // such as Content Security Policy, X-Content-Type-Options, X-Frame-Options, etc.
@@ -52,33 +48,33 @@ app.use(helmet());
 // it is not necessary to use cors in development mode
 // but it is a good practice to use it in production mode
 
-app.use(cors({
-  origin: process.env.CORS_ORIGIN || '*',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  maxAge: 3600,
-}));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    maxAge: 3600,
+  }),
+);
 
-
-// Rate limiting middleware 
+// Rate limiting middleware
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message: 'Too many requests, please try again later.',
-  headers: true
+  headers: true,
 });
 app.use(limiter);
 
 // error handler middleware
 // this middleware is used to handle errors that occur in the application
-app.use(errorHandler)
+app.use(errorHandler);
 
 //connecting to the database
 connectDb();
 
- 
 // In express 5 we don't need to use body-parser middleware
 // express has built-in middleware to parse JSON and urlencoded data
 // body-parser is a middleware that helps to parse the request body
@@ -86,7 +82,6 @@ connectDb();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 
 const swaggerPath = path.join(__dirname, './docs/swagger.json');
 const swaggerDocument = JSON.parse(fs.readFileSync(swaggerPath, 'utf-8'));

@@ -12,12 +12,12 @@ export default [
     languageOptions: {
       parserOptions: {
         project: './tsconfig.json',
-        sourceType: 'module'
-      }
+        sourceType: 'module',
+      },
     },
     rules: {
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/explicit-function-return-type': 'off'
-    }
-  }
+      '@typescript-eslint/explicit-function-return-type': 'off',
+    },
+  },
 ];

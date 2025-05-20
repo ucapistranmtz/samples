@@ -1,31 +1,35 @@
 // src/controllers/user.controller.ts
 import {
-  Controller, Route, Get, Post, Put, Delete, Tags, Path, Body, Response,Request
+  Controller,
+  Route,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Tags,
+  Path,
+  Body,
+  Response,
+  Request,
 } from 'tsoa';
-import {
-  CreateUserDto,
-  UpdateUserDto,
-  UserResponseDto,
-} from '../dtos/user.dto';
+import { CreateUserDto, UpdateUserDto, UserResponseDto } from '../dtos/user.dto';
 import { UserService } from '../services/user.service';
- import { Request as ExpressRequest } from 'express';
-import { getLogger } from '@utils/requestLogger'
-
+import { Request as ExpressRequest } from 'express';
+import { getLogger } from '@utils/requestLogger';
 
 @Route('internal/users')
 @Tags('Users')
 export class UserController extends Controller {
   private service = new UserService();
-   /**
+  /**
    * Get all users
    */
   @Get()
   public async getUsers(
-  @Request() req: ExpressRequest // <-- This will now be injected!
-
+    @Request() req: ExpressRequest, // <-- This will now be injected!
   ): Promise<UserResponseDto[]> {
-    const traceId= req.traceId  || ''; // Access the traceId from the request
-     const log = getLogger(req.traceId);
+    const traceId = req.traceId || ''; // Access the traceId from the request
+    const log = getLogger(req.traceId);
     log.info('[userController][getUsers]'); // Access the traceId from the request
     return this.service.getAll(traceId);
   }
@@ -36,18 +40,17 @@ export class UserController extends Controller {
    */
   @Get('{id}')
   @Response(404, 'User not found')
-  public async getUser(@
-    Path() id: string,
-    @Request() req: ExpressRequest // <-- This will now be injected!
-
+  public async getUser(
+    @Path() id: string,
+    @Request() req: ExpressRequest, // <-- This will now be injected!
   ): Promise<UserResponseDto> {
-    const traceId= req.traceId  || ''; // Access the traceId from the request
+    const traceId = req.traceId || ''; // Access the traceId from the request
 
-    const log= getLogger(traceId);
+    const log = getLogger(traceId);
     log.info(`[UserController][getUser] Fetching user with ID: ${id}`);
-    const user = await this.service.getById(id,traceId);
+    const user = await this.service.getById(id, traceId);
     if (!user) {
-   //  this.setStatus(404);
+      //  this.setStatus(404);
       throw new Error('User not found');
     }
     return user;
@@ -61,15 +64,15 @@ export class UserController extends Controller {
   @Response(201, 'User created')
   public async createUser(
     @Body() requestBody: CreateUserDto,
-   @Request() req: ExpressRequest // <-- This will now be injected!
-
+    @Request() req: ExpressRequest, // <-- This will now be injected!
   ): Promise<UserResponseDto> {
-    const traceId= req.traceId  || ''; // Access the traceId from the request
-    const log= getLogger(traceId);
-    log.info(`[UserController][createUser] Creating user with data: ${JSON.stringify(requestBody)}`);
+    const traceId = req.traceId || ''; // Access the traceId from the request
+    const log = getLogger(traceId);
+    log.info(
+      `[UserController][createUser] Creating user with data: ${JSON.stringify(requestBody)}`,
+    );
 
-
-    return this.service.create(requestBody,traceId);
+    return this.service.create(requestBody, traceId);
   }
 
   /**
@@ -80,15 +83,15 @@ export class UserController extends Controller {
   public async updateUser(
     @Path() id: string,
     @Body() requestBody: UpdateUserDto,
-       @Request() req: ExpressRequest // <-- This will now be injected!
-
+    @Request() req: ExpressRequest, // <-- This will now be injected!
   ): Promise<UserResponseDto> {
+    const traceId = req.traceId || ''; // Access the traceId from the request
+    const log = getLogger(traceId);
 
-    const traceId= req.traceId  || ''; // Access the traceId from the request
-    const log= getLogger(traceId);
-    
-    log.info(`[UserController][updateUser] Updating user with ID: ${id} and data: ${JSON.stringify(requestBody)}`);
-    return this.service.update(id, requestBody,traceId);
+    log.info(
+      `[UserController][updateUser] Updating user with ID: ${id} and data: ${JSON.stringify(requestBody)}`,
+    );
+    return this.service.update(id, requestBody, traceId);
   }
 
   /**
@@ -98,11 +101,11 @@ export class UserController extends Controller {
   @Response(204, 'User deleted')
   public async deleteUser(
     @Path() id: string,
-     @Request() req: ExpressRequest // <-- This will now be injected!
-): Promise<void> {
-    const traceId= req.traceId  || ''; // Access the traceId from the request
-    const log= getLogger(traceId);
+    @Request() req: ExpressRequest, // <-- This will now be injected!
+  ): Promise<void> {
+    const traceId = req.traceId || ''; // Access the traceId from the request
+    const log = getLogger(traceId);
     log.info(`[UserController][deleteUser] Deleting user with ID: ${id}`);
-    return this.service.delete(id,traceId);
+    return this.service.delete(id, traceId);
   }
 }

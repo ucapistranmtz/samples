@@ -10,7 +10,9 @@ export async function startServer(app: Express, requestedPort: number) {
 
     if (availablePort !== requestedPort) {
       logger.error(`❌ Port ${requestedPort} is already in use.`);
-      logger.info(`👉 Try using a different port by updating .env or use API_PORT=${availablePort}`);
+      logger.info(
+        `👉 Try using a different port by updating .env or use API_PORT=${availablePort}`,
+      );
       process.exit(1);
     }
 

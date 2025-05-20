@@ -13,10 +13,7 @@
     "skipLibCheck": true, // Skip type checking node_modules
     "resolveJsonModule": true, // Allow importing .json files
     "baseUrl": "./src",
-    "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
-    ],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "paths": {
       "@controllers/*": ["controllers/*"], // Aliases for controllers
       "@models/*": ["models/*"], // Aliases for models
