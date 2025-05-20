@@ -1,7 +1,9 @@
 {
   "entryFile": "src/app.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
-  "controllerPathGlobs": ["src/controllers/**/*.ts"],
+  "controllerPathGlobs": [
+    "src/controllers/**/*.ts"
+  ],
   "spec": {
     "outputDirectory": "src/docs",
     "specVersion": 3,
@@ -14,9 +16,14 @@
         "scheme": "bearer"
       }
     },
-    "security": [{ "bearerAuth": [] }]
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ]
   },
   "routes": {
     "routesDir": "src/routes"
-  }
+  },
+  "controllerContextType": "express"
 }

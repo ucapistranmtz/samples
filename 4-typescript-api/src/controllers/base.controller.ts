@@ -1,18 +1,16 @@
 // src/controllers/base.controller.ts
 import { Controller } from 'tsoa';
 import { Request } from 'express';
-
+import { RequestWithTraceId } from '../types/custom';
 
 export class BaseController extends Controller {
-  protected traceId: string = 'unknown';
-
-  public setTraceId(traceId: string) {
-    const req = this.getRequest<Request>();
-
-    this.traceId = traceId;
-    this.setHeader('X-Trace-Id', traceId); // optional: return it to client
+  protected getRequest<T = Request>(): T {
+   
+    // Provided at runtime by tsoa if "controllerContextType": "express"
+    return {} as T;
   }
-  public getTraceId() {
-    return this.traceId;
+  protected getTraceId(): string {
+    const req = this.getRequest<Request>();
+    return req.traceId ?? 'unknown';
   }
 }

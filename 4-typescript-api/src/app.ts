@@ -28,11 +28,6 @@ const logger = LoggerService.getLogger();
 // doing the app preparations
 const app = express();
 
-// Add traceId to all requests
-app.use(traceMiddleware);
-
-//  Attach traceId to all responses
-app.use(addTraceIdToResponse);
 
 
 
@@ -43,7 +38,7 @@ app.use(addTraceIdToResponse);
 // it is a good practice to use helmet in production apps
 // it is not necessary to use helmet in development mode
 // but it is a good practice to use it in production mode
-app.use(helmet());
+//app.use(helmet());
 
 // cors is a middleware that helps to enable Cross-Origin Resource Sharing (CORS)
 // it allows the app to specify which origins are allowed to access the resources
@@ -51,7 +46,7 @@ app.use(helmet());
 // it is a good practice to use cors in production apps
 // it is not necessary to use cors in development mode
 // but it is a good practice to use it in production mode
-
+/*
 app.use(cors({
   origin: process.env.CORS_ORIGIN || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -59,7 +54,7 @@ app.use(cors({
   credentials: true,
   maxAge: 3600,
 }));
-
+*/
 
 // Rate limiting middleware 
 
@@ -69,11 +64,11 @@ const limiter = rateLimit({
   message: 'Too many requests, please try again later.',
   headers: true
 });
-app.use(limiter);
+//app.use(limiter);
 
 // error handler middleware
 // this middleware is used to handle errors that occur in the application
-app.use(errorHandler)
+//app.use(errorHandler)
 
 //connecting to the database
 connectDb();
@@ -102,6 +97,13 @@ logger.info('Swagger JSON endpoint at /swagger.json');
 
 const apiPort = parseInt(process.env.API_PORT || '3000', 10);
 
+
+
+// Add traceId to all requests
+app.use(traceMiddleware);
+
+//  Attach traceId to all responses
+app.use(addTraceIdToResponse);
 // Registering the routes
 RegisterRoutes(app);
 
