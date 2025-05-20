@@ -25,6 +25,7 @@
     "postbuild": "echo Copying Swagger... && shx mkdir -p dist/docs && shx cp src/docs/swagger.json dist/docs/swagger.json",
     "prestart": "npm run tsoa:build && npm run build",
     "start": "node -r tsconfig-paths/register dist/app.js",
+    "predev": "npm run tsoa:build",
     "dev": "nodemon --exec ts-node -r tsconfig-paths/register src/app.ts",
     "test": "jest",
     "tsoa:routes": "tsoa routes",
