@@ -28,10 +28,13 @@ export class UserService {
     public async getById(id: string,traceId:string): Promise<UserResponseDto | null> {
         const log= getLogger(traceId);
         log.info(`[UserService][getById] Fetching user with ID: ${id}`);
-    const user = await UserModel.findById(id).lean();
+        const user = await UserModel.findById(id).lean();
         if (!user) {
+            log.warn(`[UserService][getById] User with ID: ${id} not found`);
             throw new Error('User not found');
         }
+        
+        log.info(`[UserService][getById] User found: ${JSON.stringify(user)}`);
         return this.toUserResponseDto(user);
     }
 
@@ -39,13 +42,13 @@ export class UserService {
     public async create(data: CreateUserDto,traceId:string): Promise<UserResponseDto> {
         const log= getLogger(traceId);
         log.info(`[UserService][create] Creating user with data: ${JSON.stringify(data)}`); 
-    
- 
-      const newUser = new UserModel(data);
-      await newUser.save();
-   
-      //this.users.push(userResponse);
-    return this.toUserResponseDto(newUser);  
+
+
+        const newUser = new UserModel(data);
+        await newUser.save();
+
+        //this.users.push(userResponse);
+        return this.toUserResponseDto(newUser);  
   }
 
 
