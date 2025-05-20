@@ -10,21 +10,20 @@ import {
 import { UserService } from '../services/user.service';
 import { BaseController } from './base.controller';
 import { getLogger } from '@utils/requestLogger';
+import { Request } from 'express';
+
 
 @Route('internal/users')
 @Tags('Users')
 export class UserController extends BaseController {
   private service = new UserService(this.getTraceId());
-  // Logger instance
-  // Use the trace ID from the request to log
-  // This is a simple example. In a real-world application, you might want to use a more sophisticated logging solution.
-  private logger = getLogger(this.getTraceId());
-  /**
+   /**
    * Get all users
    */
   @Get()
   public async getUsers(): Promise<UserResponseDto[]> {
-    this.logger.info('Fetching all users');
+    const logger = getLogger(this.getTraceId());
+    logger.info('Fetching all users');
     return this.service.getAll();
   }
 
@@ -35,7 +34,8 @@ export class UserController extends BaseController {
   @Get('{id}')
   @Response(404, 'User not found')
   public async getUser(@Path() id: string): Promise<UserResponseDto> {
-    this.logger.info(`Fetching user with ID: ${id}`);
+    const logger = getLogger(this.getTraceId());
+    logger.info(`Fetching user with ID: ${id}`);
     const user = await this.service.getById(id);
     if (!user) {
       this.setStatus(404);
@@ -53,8 +53,11 @@ export class UserController extends BaseController {
   public async createUser(
     @Body() requestBody: CreateUserDto
   ): Promise<UserResponseDto> {
-    this.logger.info('Creating a new user');
-    return this.service.create(requestBody);
+  // If you need to set a traceId, you should pass it as a parameter or handle it in middleware.
+  // For now, we'll just log and create the user.
+  const logger = getLogger(this.getTraceId());
+  logger.info('Creating a new user');
+  return this.service.create(requestBody);
   }
 
   /**
@@ -66,7 +69,8 @@ export class UserController extends BaseController {
     @Path() id: string,
     @Body() requestBody: UpdateUserDto
   ): Promise<UserResponseDto> {
-    this.logger.info(`Updating user with ID: ${id}`);
+    const logger = getLogger(this.getTraceId());
+    logger.info(`Updating user with ID: ${id}`);
     return this.service.update(id, requestBody);
   }
 
@@ -76,7 +80,8 @@ export class UserController extends BaseController {
   @Delete('{id}')
   @Response(204, 'User deleted')
   public async deleteUser(@Path() id: string): Promise<void> {
-    this.logger.info(`Deleting user with ID: ${id}`);
+    const logger = getLogger(this.getTraceId());
+    logger.info(`Deleting user with ID: ${id}`);
     return this.service.delete(id);
   }
 }

@@ -10,13 +10,13 @@ class LoggerService {
   public static getLogger(): Logger {
     if (!LoggerService.instance) {
       LoggerService.instance = createLogger({
-        level: 'info',
-        format: format.combine(
-          format.timestamp(),
-          format.printf(({ timestamp, level, message }) => {
-            return `[${timestamp}] ${level.toUpperCase()}: ${message}`;
-          })
-        ),
+      level: 'info',
+      format: format.combine(
+        format.timestamp(),
+        format.printf(({ timestamp, level, message, traceId }) => {
+          return `${timestamp} [${level.toUpperCase()}] ${traceId ? `[TraceID: ${traceId}]` : ''} ${message}`;
+        })
+      ),
         transports: [
           new transports.Console(),
           // Add file logging if needed:
