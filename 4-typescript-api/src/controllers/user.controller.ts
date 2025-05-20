@@ -10,8 +10,8 @@ import {
 import { UserService } from '../services/user.service';
  import { Request as ExpressRequest } from 'express';
 import { getLogger } from '@utils/requestLogger'
-import { traceMiddleware } from '../middleware/trace.middleware';
- 
+
+
 @Route('internal/users')
 @Tags('Users')
 export class UserController extends Controller {
@@ -67,6 +67,7 @@ export class UserController extends Controller {
     const traceId= req.traceId  || ''; // Access the traceId from the request
     const log= getLogger(traceId);
     log.info(`[UserController][createUser] Creating user with data: ${JSON.stringify(requestBody)}`);
+
 
     return this.service.create(requestBody,traceId);
   }
