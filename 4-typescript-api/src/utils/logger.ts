@@ -21,6 +21,7 @@ class LoggerService {
           new transports.Console(),
           // Add file logging if needed:
           // new transports.File({ filename: 'logs/app.log' }),
+          // add Cloudwatch/etc or  any other service here
         ],
       });
     }
