@@ -13,9 +13,11 @@ import {
   Request,
 } from 'tsoa';
 import { CreateUserDto, UpdateUserDto, UserResponseDto } from '../dtos/user.dto';
-import { UserService } from '../services/user.service';
+import { UserService } from '@services/user.service';
 import { Request as ExpressRequest } from 'express';
 import { getLogger } from '@utils/requestLogger';
+import { validateSchemas } from '@utils/validate-schemas';
+import { userSchema } from '@validations/user.schema';
 
 @Route('internal/users')
 @Tags('Users')
@@ -72,6 +74,12 @@ export class UserController extends Controller {
       `[UserController][createUser] Creating user with data: ${JSON.stringify(requestBody)}`,
     );
 
+    const validationErrors = validateSchemas({ body: userSchema }, { body: req.body }, traceId);
+    if (validationErrors.length > 0) {
+      this.setStatus(400);
+      throw new Error('Validation failed: ' + JSON.stringify(validationErrors));
+    }
+
     return this.service.create(requestBody, traceId);
   }
 
@@ -91,6 +99,13 @@ export class UserController extends Controller {
     log.info(
       `[UserController][updateUser] Updating user with ID: ${id} and data: ${JSON.stringify(requestBody)}`,
     );
+
+    const validationErrors = validateSchemas({ body: userSchema }, { body: req.body }, traceId);
+    if (validationErrors.length > 0) {
+      this.setStatus(400);
+      throw new Error('Validation failed: ' + JSON.stringify(validationErrors));
+    }
+
     return this.service.update(id, requestBody, traceId);
   }
 
