@@ -11,6 +11,7 @@ import {
   Body,
   Response,
   Request,
+  Security,
 } from 'tsoa';
 import { CreateUserDto, UpdateUserDto, UserResponseDto } from '../dtos/user.dto';
 import { UserService } from '@services/user.service';
@@ -27,6 +28,7 @@ export class UserController extends Controller {
    * Get all users
    */
   @Get()
+  @Security('bearerAuth')
   public async getUsers(
     @Request() req: ExpressRequest, // <-- This will now be injected!
   ): Promise<UserResponseDto[]> {
@@ -42,6 +44,7 @@ export class UserController extends Controller {
    */
   @Get('{id}')
   @Response(404, 'User not found')
+  @Security('bearerAuth')
   public async getUser(
     @Path() id: string,
     @Request() req: ExpressRequest, // <-- This will now be injected!
@@ -64,6 +67,7 @@ export class UserController extends Controller {
    */
   @Post()
   @Response(201, 'User created')
+  @Security('bearerAuth')
   public async createUser(
     @Body() requestBody: CreateUserDto,
     @Request() req: ExpressRequest, // <-- This will now be injected!
@@ -88,6 +92,7 @@ export class UserController extends Controller {
    */
   @Put('{id}')
   @Response(404, 'User not found')
+  @Security('bearerAuth')
   public async updateUser(
     @Path() id: string,
     @Body() requestBody: UpdateUserDto,
@@ -114,6 +119,7 @@ export class UserController extends Controller {
    */
   @Delete('{id}')
   @Response(204, 'User deleted')
+  @Security('bearerAuth')
   public async deleteUser(
     @Path() id: string,
     @Request() req: ExpressRequest, // <-- This will now be injected!

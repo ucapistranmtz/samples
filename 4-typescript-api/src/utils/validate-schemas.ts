@@ -10,7 +10,7 @@ export function validateSchemas(
 ): ValidationError[] {
   const log = getLogger(traceId);
   log.info(`[utils][validateSchemas] Validating schemas`);
-  
+
   const validations: Array<{ location: string; error: ZodError }> = [];
 
   if (schemas.body) {
@@ -32,7 +32,7 @@ export function validateSchemas(
     const result = schemas.headers.safeParse(data.headers);
     if (!result.success) validations.push({ location: 'headers', error: result.error });
   }
-  
+
   // all errors are in the same format
   return validations.flatMap((v) =>
     v.error.errors.map((detail) => ({
