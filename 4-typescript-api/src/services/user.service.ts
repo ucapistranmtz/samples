@@ -1,6 +1,7 @@
 import { getLogger } from '@utils/requestLogger';
 import { CreateUserDto, UpdateUserDto, UserResponseDto } from '../dtos/user.dto';
 import { IUser, UserModel } from '../models/user.model';
+import bcrypt from 'bcrypt';
 
 export class UserService {
   private toUserResponseDto(user: IUser): UserResponseDto {
@@ -23,15 +24,35 @@ export class UserService {
   // get user by id
   public async getById(id: string, traceId: string): Promise<UserResponseDto | null> {
     const log = getLogger(traceId);
+    let result: UserResponseDto | null = null;
+
     log.info(`[UserService][getById] Fetching user with ID: ${id}`);
     const user = await UserModel.findById(id).lean();
     if (!user) {
       log.warn(`[UserService][getById] User with ID: ${id} not found`);
-      throw new Error('User not found');
+    } else {
+      log.info(`[UserService][getById] User found: ${JSON.stringify(user)}`);
+      result = this.toUserResponseDto(user);
     }
 
-    log.info(`[UserService][getById] User found: ${JSON.stringify(user)}`);
-    return this.toUserResponseDto(user);
+    return result;
+  }
+
+  // get user by email
+  public async getByEmail(email: string, traceId: string): Promise<UserResponseDto | null> {
+    const log = getLogger(traceId);
+    let result: UserResponseDto | null = null;
+
+    log.info(`[UserService][getByEmail] Fetching user with getByEmail: ${email}`);
+    const user = await UserModel.findOne({ email }).lean();
+    if (!user) {
+      log.warn(`[UserService][getByEmail] User with email: ${email} not found`);
+    } else {
+      log.info(`[UserService][getByEmail] User found: ${JSON.stringify(user)}`);
+      if (user) result = this.toUserResponseDto(user);
+    }
+
+    return result;
   }
 
   // create user
@@ -39,7 +60,12 @@ export class UserService {
     const log = getLogger(traceId);
     log.info(`[UserService][create] Creating user with data: ${JSON.stringify(data)}`);
 
-    const newUser = new UserModel(data);
+    const passwordHash = await bcrypt.hash(data.password, 10);
+
+    // destructure to remove password from data
+    const { password, ...rest } = data;
+
+    const newUser = new UserModel({ ...rest, passwordHash });
     await newUser.save();
 
     //this.users.push(userResponse);

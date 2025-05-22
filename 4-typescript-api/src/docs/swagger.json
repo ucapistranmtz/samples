@@ -36,9 +36,12 @@
           },
           "userName": {
             "type": "string"
+          },
+          "password": {
+            "type": "string"
           }
         },
-        "required": ["name", "email", "userName"],
+        "required": ["name", "email", "userName", "password"],
         "type": "object",
         "additionalProperties": false
       },
@@ -56,12 +59,40 @@
         },
         "type": "object",
         "additionalProperties": false
+      },
+      "LoginResponse": {
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGci..."
+          }
+        },
+        "required": ["token"],
+        "type": "object",
+        "additionalProperties": false
+      },
+      "LoginRequest": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "admin@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "admin123"
+          }
+        },
+        "required": ["email", "password"],
+        "type": "object",
+        "additionalProperties": false
       }
     },
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Type 'Bearer <token>'"
       }
     }
   },
@@ -97,7 +128,11 @@
         },
         "description": "Get all users",
         "tags": ["Users"],
-        "security": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": []
       },
       "post": {
@@ -108,7 +143,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponseDto"
+                  "type": "string"
                 }
               }
             }
@@ -144,7 +179,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserResponseDto"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/UserResponseDto"
+                    }
+                  ],
+                  "nullable": true
                 }
               }
             }
@@ -155,7 +195,11 @@
         },
         "description": "Get a user by ID",
         "tags": ["Users"],
-        "security": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "description": "User ID",
@@ -187,7 +231,11 @@
         },
         "description": "Update an existing user",
         "tags": ["Users"],
-        "security": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -218,7 +266,11 @@
         },
         "description": "Delete a user by ID",
         "tags": ["Users"],
-        "security": [],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -229,6 +281,36 @@
             }
           }
         ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "Login",
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Auth"],
+        "security": [],
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        }
       }
     }
   },

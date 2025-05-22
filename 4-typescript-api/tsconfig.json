@@ -2,7 +2,8 @@
   "compilerOptions": {
     "experimentalDecorators": true, // Enable experimental decorators
     "emitDecoratorMetadata": true, // Emit metadata for decorators
-    "target": "ES2020", // Support modern JS features
+    "target": "ES2021", // Support modern JS features
+    "lib": ["ES2021"], // Include ES2021 library
     "module": "CommonJS", // Required for Node.js
     "moduleResolution": "node", // Resolve imports like Node does
     "outDir": "./dist", // Compiled JS output folder

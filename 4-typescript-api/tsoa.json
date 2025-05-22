@@ -11,12 +11,19 @@
     "securityDefinitions": {
       "bearerAuth": {
         "type": "http",
-        "scheme": "bearer"
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Type 'Bearer <token>'"
       }
     },
-    "security": [{ "bearerAuth": [] }]
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ]
   },
   "routes": {
-    "routesDir": "src/routes"
+    "routesDir": "src/routes",
+    "authenticationModule": "src/tsoa-auth"
   }
 }
