@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 export const userSchema = z.object({
-  id: z.string().uuid(),
   name: z.string().min(1, 'Name is required').max(50, 'Name must be at most 50 characters'),
   email: z.string().email('Invalid email address'),
   userName: z

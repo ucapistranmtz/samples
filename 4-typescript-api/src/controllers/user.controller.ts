@@ -19,6 +19,8 @@ import { Request as ExpressRequest } from 'express';
 import { getLogger } from '@utils/requestLogger';
 import { validateSchemas } from '@utils/validate-schemas';
 import { userSchema } from '@validations/user.schema';
+import bcrypt from 'bcrypt';
+import { generateToken } from '@utils/jwt';
 
 @Route('internal/users')
 @Tags('Users')
@@ -48,16 +50,26 @@ export class UserController extends Controller {
   public async getUser(
     @Path() id: string,
     @Request() req: ExpressRequest, // <-- This will now be injected!
-  ): Promise<UserResponseDto> {
+  ): Promise<UserResponseDto | null> {
+    let user: UserResponseDto | null = null;
     const traceId = req.traceId || ''; // Access the traceId from the request
 
     const log = getLogger(traceId);
-    log.info(`[UserController][getUser] Fetching user with ID: ${id}`);
-    const user = await this.service.getById(id, traceId);
-    if (!user) {
-      //  this.setStatus(404);
-      throw new Error('User not found');
+
+    try {
+      log.info(`[UserController][getUser] Fetching user with ID: ${id}`);
+      user = await this.service.getById(id, traceId);
+      if (!user) {
+        //  this.setStatus(404);
+        throw new Error('User not found');
+      }
+    } catch (error) {
+      log.error(
+        `[UserController][getUser] Error fetching user with ID: ${id} ${(error as Error).message}`,
+      );
+      this.setStatus(404);
     }
+
     return user;
   }
 
@@ -67,24 +79,48 @@ export class UserController extends Controller {
    */
   @Post()
   @Response(201, 'User created')
-  @Security('bearerAuth')
   public async createUser(
     @Body() requestBody: CreateUserDto,
     @Request() req: ExpressRequest, // <-- This will now be injected!
-  ): Promise<UserResponseDto> {
+  ): Promise<{ token: string }> {
     const traceId = req.traceId || ''; // Access the traceId from the request
     const log = getLogger(traceId);
-    log.info(
-      `[UserController][createUser] Creating user with data: ${JSON.stringify(requestBody)}`,
-    );
+    let token: string = '';
+    try {
+      log.info(
+        `[UserController][createUser] Creating user with data: ${JSON.stringify(requestBody)}`,
+      );
 
-    const validationErrors = validateSchemas({ body: userSchema }, { body: req.body }, traceId);
-    if (validationErrors.length > 0) {
-      this.setStatus(400);
-      throw new Error('Validation failed: ' + JSON.stringify(validationErrors));
+      const validationErrors = validateSchemas({ body: userSchema }, { body: req.body }, traceId);
+      if (validationErrors.length > 0) {
+        this.setStatus(400);
+        throw new Error('Validation failed: ' + JSON.stringify(validationErrors));
+      }
+
+      const existing = await this.service.getByEmail(requestBody.email, traceId);
+      if (existing) {
+        this.setStatus(409);
+        throw new Error('Email already exists');
+      }
+
+      const newUser = await this.service.create(requestBody, traceId);
+      if (!newUser) {
+        this.setStatus(500);
+        throw new Error('User creation failed');
+      }
+      //new token
+      log.info(`[UserController][createUser] User created: ${JSON.stringify(newUser)}`);
+      token = generateToken({
+        id: newUser.id,
+        email: newUser.email,
+        name: newUser.name,
+      });
+    } catch (error) {
+      log.error(`[UserController][createUser] Error creating user: ${(error as Error).message}`);
+      this.setStatus(500);
     }
 
-    return this.service.create(requestBody, traceId);
+    return { token };
   }
 
   /**

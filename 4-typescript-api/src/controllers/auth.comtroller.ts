@@ -1,21 +1,28 @@
+// src/controllers/auth.controller.ts
 import { Body, Controller, Post, Route, Tags } from 'tsoa';
-import { generateToken } from '../utils/jwt';
 import { LoginRequest, LoginResponse } from '../dtos/auth.dto';
+import { generateToken } from '@utils/jwt';
+import { UserModel } from '@models/user.model';
+import bcrypt from 'bcrypt';
 
 @Route('auth')
 @Tags('Auth')
 export class AuthController extends Controller {
   @Post('login')
   public async login(@Body() body: LoginRequest): Promise<LoginResponse> {
-    const { email, password } = body;
+    const user = await UserModel.findOne({ email: body.email });
 
-    // Replace with real DB logic
-    if (email !== 'admin@example.com' || password !== 'admin123') {
+    if (!user || !(await bcrypt.compare(body.password, user.passwordHash))) {
       this.setStatus(401);
-      throw new Error('Invalid credentials');
+      throw new Error('Invalid email or password');
     }
 
-    const token = generateToken({ email });
+    const token = generateToken({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    });
+
     return { token };
   }
 }
