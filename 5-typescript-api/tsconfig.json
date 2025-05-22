@@ -23,7 +23,5 @@
       "@validations/*": ["validations/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }
