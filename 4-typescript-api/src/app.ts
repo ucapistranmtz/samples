@@ -7,6 +7,7 @@ import fs from 'fs';
 // middlewares
 import { traceMiddleware } from './middleware/trace.middleware';
 import { addTraceIdToResponse } from './middleware/response-header.middleware';
+import { getMetrics, metricsMiddleware } from './middleware/metricts.middleware';
 
 //load the environment variables
 import './config/loadEnv';
@@ -26,6 +27,12 @@ const logger = LoggerService.getLogger();
 // doing the app preparations
 const app = express();
 
+app.use(metricsMiddleware);
+
+app.get('/metrics', async (_req, res) => {
+  res.set('Content-Type', 'text/plain');
+  res.send(await getMetrics());
+});
 // Add traceId to all requests
 app.use(traceMiddleware);
 
