@@ -1,3 +1,18 @@
+// --- Application Entry Point ---
+// This file sets up the Express application, configures all middlewares, and starts the server.
+//
+// Key features added for metrics and observability:
+// - Prometheus metrics for HTTP requests, user errors, and user successes
+// - Middleware to extract userId from JWT and store in res.locals.userId
+// - Middleware to track successful and failed requests by user and route/error type
+// - Ensures userId is not leaked in API responses
+//
+// Metrics are available at the /metrics endpoint for Prometheus scraping.
+//
+// See each middleware for more details on their specific roles.
+//
+// This setup enables advanced monitoring and troubleshooting, and is ready for Grafana dashboards.
+
 import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
@@ -8,6 +23,8 @@ import fs from 'fs';
 import { traceMiddleware } from './middleware/trace.middleware';
 import { addTraceIdToResponse } from './middleware/response-header.middleware';
 import { getMetrics, metricsMiddleware } from './middleware/metricts.middleware';
+import { authMiddleware } from './middleware/auth.middleware';
+import { successMetricsMiddleware } from './middleware/success-metrics.middleware';
 
 //load the environment variables
 import './config/loadEnv';
@@ -106,5 +123,7 @@ const apiPort = parseInt(process.env.API_PORT || '3000', 10);
 
 // Registering the routes
 RegisterRoutes(app);
+
+app.use(successMetricsMiddleware);
 
 startServer(app, apiPort);

@@ -102,6 +102,29 @@ docker run --name my-typescript-api --env-file .env.local -p 3000:3000 my-typesc
 docker-compose --env-file .env.compose up --build
 ```
 
+## 📊 Observability: Prometheus & Grafana
+
+This project includes built-in metrics at `/metrics` (Prometheus format). You can visualize these metrics using Prometheus and Grafana, included in the Docker Compose setup.
+
+### How to use
+
+1. **Start all services (API, MongoDB, Prometheus, Grafana):**
+
+   ```bash
+   docker-compose --env-file .env.compose up --build
+   ```
+
+2. **Prometheus** will be available at [http://localhost:9090](http://localhost:9090) and will scrape metrics from the API.
+
+3. **Grafana** will be available at [http://localhost:3001](http://localhost:3001)
+
+   - Login with user `admin` and password `admin`.
+   - Add Prometheus as a data source (URL: `http://prometheus:9090`).
+   - Import dashboards or create your own to visualize API metrics.
+
+4. **Metrics endpoint:**  
+   The API exposes Prometheus metrics at [http://localhost:3000/metrics](http://localhost:3000/metrics).
+
 📂 Project Structure
 
 ```bash
