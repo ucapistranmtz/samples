@@ -1,2 +1,4 @@
 node_modules/
 my-typescript-api/
+.DS_Store
+*.DS_Store*
