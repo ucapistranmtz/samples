@@ -18,5 +18,8 @@
     "@types/typescript": "^0.4.29",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "ts-node-dev": "^2.0.0"
   }
 }
