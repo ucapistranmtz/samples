@@ -9,9 +9,10 @@ type RetryOptions = {
 
 const fetchWithRetry = async (url: string, retryOptions: RetryOptions) => {
   const abortController = new AbortController();
+  const { timeOutMs, delayMs, retries } = retryOptions;
   const id = setTimeout(() => {
     abortController.abort();
-  }, retryOptions.timeOutMs);
+  }, timeOutMs);
   try {
     const response: Response = await fetch(url, {
       ...retryOptions.fetchOptons,
@@ -24,16 +25,29 @@ const fetchWithRetry = async (url: string, retryOptions: RetryOptions) => {
     return response;
   } catch (error) {
     clearTimeout(id);
-    if (retryOptions.retries) {
-      console.warn(`Retrying ..(${3 - retryOptions.retries + 1})`);
-      await new Promise((resolve) => setTimeout(resolve, retryOptions.delayMs));
+    if (retries) {
+      console.warn(`Retrying ..(${3 - retries + 1})`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
       return fetchWithRetry(url, {
         ...retryOptions,
-        delayMs: retryOptions.delayMs * 2,
-        retries: retryOptions.retries - 1,
+        delayMs: delayMs * 2,
+        retries: retries - 1,
       });
     } else {
       throw new Error(`Failed after retries: ${error}`);
     }
   }
 };
+
+(async () => {
+  try {
+    await fetchWithRetry("http://test.test", {
+      retries: 3,
+      fetchOptons: {},
+      delayMs: 0,
+      timeOutMs: 0,
+    });
+  } catch (error) {
+    console.error("Expected Failure:..", error);
+  }
+})();
