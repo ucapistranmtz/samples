@@ -164,3 +164,33 @@ class ParkingLot {
     return totalCost;
   }
 }
+
+// example usage
+
+const ratePRovider = new FixedRateProvider([
+  { type: "sedan", rate: 10 },
+  { type: "truck", rate: 15 },
+  { type: "bike", rate: 5 },
+  { type: "mini", rate: 5 },
+]);
+
+const storage = new InMemoryStorage();
+
+const parkingLot = new ParkingLot(2, ratePRovider, storage);
+
+const bike = new Vehicle("Bike1", "bike");
+const truck = new Vehicle("Frontier", "truck");
+const sedan = new Vehicle("Honda", "sedan");
+
+try {
+  parkingLot.checkIn(bike);
+  console.log(`Checked in: ${bike.plate}`);
+
+  parkingLot.checkIn(truck);
+  console.log(`Checked in: ${truck.plate}`);
+
+  parkingLot.checkIn(sedan);
+  console.log(`Checked in: ${sedan.plate}`);
+} catch (error: any) {
+  console.error(`Error ${error.message}`);
+}
